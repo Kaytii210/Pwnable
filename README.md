@@ -503,8 +503,8 @@ log.info("Thông tin hữu ích" + info)
 p.interactive()
 ```
 ## 📚 PWNINIT
-`pwninit`: tự patch file 
-`mv file_patch file`: đổi tên
+-`pwninit`: tự patch file 
+-`mv file_patch file`: đổi tên
 
 
 
