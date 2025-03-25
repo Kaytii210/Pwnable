@@ -229,32 +229,32 @@ slog('canary', cnry)
 - **Tìm ROP Gadget:**
   - Sử dụng lệnh:  
     ```bash
-    ROP gadget --binary filename | grep "gadget"
+    ROP gadget --binary filename | grep "gadget"  
+    #tìm ngay trong process
+    pop_rdi_ret = r.find_gadget(['pop rdi', 'ret'])[0] #tìm các thanh ghi ex: pop rdi ; ret
     ```  
-    ví dụ: tìm gadget `pop rdi; ret` để thiết lập đối số cho `system`.
+    ví dụ: tìm gadget `pop rdi; ret` để thiết lập đối số cho `system`.  
+    quay lại `main` để khai thác tiếp (`e.symbols['main']`)
 
 ---
 
-### 📌 Quy trình tấn công
+### 📌 Ví dụ trên x64
 
 1. **Leak địa chỉ libc:**
    - Sử dụng hàm như `puts` để in ra địa chỉ được lưu trong GOT.
    - Ví dụ: dùng gadget `pop rdi; ret` để đưa địa chỉ của `puts@got` vào rdi và sau đó gọi `puts(puts@got)`.
    - Tính toán:
-     - `libc_base = leaked_address - offset_of_puts_in_libc(libc.symbols['puts'])`
+     - `libc_base = leaked_address - puts_offset (libc.symbols['puts'])`
 
 2. **Xác định địa chỉ hàm `system` và chuỗi `/bin/sh`:**
    - `system = libc_base + system_offset`
    - `binsh = libc_base + offset_of_bin_sh`
 
-3. **Triển khai ROP Chain:**
+3. **Triển khai ROP:**
    - Sử dụng gadget `pop rdi; ret` để thiết lập đối số cho hàm `system`.
-   - ROP chain mẫu:  
+   - ROP mẫu:  
      ```python
-     rop = ROP(binary)
-     rop.raw(gadget_pop_rdi)
-     rop.raw(binsh_address)
-     rop.raw(system_address)
+     p64(pop_rdi_ret) + p64(binsh) + p64(system)
      ```
 
 ---
