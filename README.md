@@ -1,6 +1,7 @@
 # pwn
 Studying..
 ***COMPUTER ARCHITECTURE***
+    
     rax (accumulator register): Return value of a function                                                  rax eax ax ah al (64 32 16 8 8)
     rbx (base register): No primary use on x64                                                              
     rcx (counter register): Loop count for loop statement, or execution count for various operations
@@ -12,6 +13,7 @@ Studying..
 
 
 ***MEMORY STRUCTURE OF LINUX PROCESS***
+    
     Code Segment: the area where the executable machine code is located, and is also known as the text segment. (r--x)
     Data segemnt: contains global vars (rw-)
     BSS segment(Block Started by Symbol): area of memory where global variables that do not have a value at compile time, = 0 when start. (rw-)
@@ -22,6 +24,7 @@ Studying..
 
 
 **ASSEMBLY***
+    
     Opcode
         Data Transfer: mov, lea
         Arithmetic: inc, dec, add, sub
@@ -31,6 +34,7 @@ Studying..
         Stack: push, pop
         Procedure: call, ret, leave
         System call: syscall
+    
     Memory operands
         QWORD PTR [0x8048000]: 8 bytes
         DWORD PTR [0x8048000]: 4 bytes
@@ -38,6 +42,7 @@ Studying..
 
 
 **SHELLCODE***
+    
     execve("/bin/sh", null, null)
     syscall     rax     arg0 (rdi)              arg1 (rsi)                  arg2 (rdx)
     execve      0x3b    const char *filename    const char *const *argv     const char *const *envp
@@ -64,6 +69,7 @@ Studying..
 
 
 ***BUFFER OVERFLOW***
+    
     gets(buf): no limit input
                 received until "\n" but don't received "\n"
                 add "\0" at the end of input
@@ -73,7 +79,6 @@ Studying..
     scanf("%[width]s", buf):  
                 Reads up to `width` characters; if `width > size(buf) - 1`, overflow may occur.  
                 Does not guarantee null termination.  
-
     fgets(buf, len, stream):  
                 Reads up to `len - 1` characters; if `len > size(buf)`, overflow may occur.  
                 Always null-terminates the buffer.  
@@ -86,6 +91,7 @@ Studying..
 
 
 **CANARY***
+    
     ANTI buffer overflow -> Segmentation fault
     [rbp-0x8]
     Random 8 bytes start with a null byte
@@ -98,6 +104,7 @@ Studying..
 
 
 ***NX & ASLR***
+    
     No-eXecute (NX): anti shellcode
     Address Space Layout Randomization (ASLR): assigns the stack, heap, shared libraries, etc. to random addresses each time the binary is executed
     RELocation Read-Only (RELRO)
@@ -107,6 +114,7 @@ Studying..
     => Hook Overwrite: Bypassing RELRO: overwrite function pointers(malloc(), free(), realloc()) with an arbitrary function address to execute malicious code.
 
 ***R2L-ROP***
+    
     r2l: sử dụng ret để chạy hàm có trong libc => system("/bin/sh")
     ROP: sử dụng ret và các ROP gadget để điều khiển luồng thực thi của chương trình
     GOT(address): global offset table -> nơi chứa địa chỉ các hàm libc(put)
@@ -138,16 +146,19 @@ Studying..
 
 
 ***PIE & RELRO***
+    
     Position-Independent Executable (PIE): change address of the program
     Position-Independent Code (PIC):  Code that can run correctly regardless of where it is mapped in memory. It avoids using absolute addresses and typically relies on relative addresses, often based on rip.
 
 
 ***OUT OF BOUNDS***
+    
     OOB occurs when the index value used to reference an element is negative or outside the length of the array. 
     Access arr: &arr[k] = arr + sizeof(elem)*k
 
 
 ***FORMAT STRING***
+    
     printf("%s", input) => in ra chuỗi input
     printf("%s") => in ra giá trị tại địa chỉ thứ 1 trên stack
     CHỉ định tham số $
@@ -162,6 +173,7 @@ Studying..
 
 
 ***DEBUG***
+    
     checksec
         Canary: anti buffer overflow (rbp-0x8)
         NX (Non-Executable): anti Shellcode
@@ -185,6 +197,7 @@ Studying..
     RIP (64-bit) / EIP (32-bit): Instruction Pointer (địa chỉ lệnh tiếp theo thực hiện)
 
 ***PWNTOOLS***
+    
     #Process & Remote
     from pwn import *
     p = process('./filename')       //local
@@ -233,6 +246,7 @@ Studying..
 
 
 ***PWNINIT***
+    
     export PATH="~/.cargo/bin:$PATH"
     pwninit: tự patch file 
     mv file_patch file: đổi tên
