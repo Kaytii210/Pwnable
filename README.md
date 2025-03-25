@@ -504,7 +504,7 @@ p.interactive()
 ```
 ## 📚 PWNINIT
 
--`pwninit`: tự patch file
+-`pwninit`: tự patch file  
 -`mv file_patch file`: đổi tên
 
 
