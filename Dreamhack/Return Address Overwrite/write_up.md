@@ -1,5 +1,6 @@
 **Read source code**
 - As we can see there is `get_shell()` func so we use buffer overflow to overwrite the return address to the address of `get_shell`
+- `scanf("%s", buf);` no limit on input => buffer overflow
 - `Checksec` in gdb
 ```
 Arch:     amd64
