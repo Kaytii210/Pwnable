@@ -6,7 +6,7 @@
 Buf
 canary (rbp-0x8)
 rbp
-ret (rbp+0x8)
+ret (rbp+0x0)
 ```
 - `Checksec` in gdb
 ```
