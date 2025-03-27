@@ -460,6 +460,10 @@ p.sendline(b'A')                  # Gửi 'A' kèm newline
 p.sendafter(b'hello', b'A')
 p.sendlineafter(b'hello', b'A')
 
+#send and sendline
+send: read
+sendline: scanf, gets, fgets
+
 # Nhận dữ liệu
 data = p.recv(1024)               # Nhận tối đa 1024 byte
 line = p.recvline()               # Nhận đến khi gặp newline
