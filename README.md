@@ -212,7 +212,7 @@ slog('canary', cnry)
 - **ROP (Return Oriented Programming):** Sử dụng chuỗi các gadget (lệnh `ret` kết hợp với các lệnh nhỏ) để điều khiển luồng thực thi của chương trình.
 - **GOT (Global Offset Table):** Bảng chứa địa chỉ của các hàm trong libc (ví dụ: `puts`).
 - **PLT (Procedure Linkage Table):** Sử dụng để gọi các hàm qua GOT.
-
+- Call a func : func_plt -> func_got -> func_libc
 ---
 
 ### 🔧 Các chi tiết kỹ thuật
