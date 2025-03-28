@@ -37,6 +37,12 @@ write(1, read_got,)
 read(0, read_got,)
 read(read_got + 0x8)
 ```
+- Follows the System V AMD64 ABI function calling convention, where:
+  + rdi contains the first parameter (file descriptor, e.g. 0 for stdin, 1 for stdin)
+  + rsi contains the second parameter (buffer to store the read data)
+  + rdx contains the third parameter (number of bytes to read)
+  + stack have to be 16 bytes before call (we usually put `ret` before call)
+- Luckyly, when debug, rdx is set at 0x100, so we just need to change rdi and rsi
 - Get address of read_got by `write(1, read_got,)`
 - Calculate `libc_base = read - read_offset`
 - Calculate `system = libc_base + system_offset`
