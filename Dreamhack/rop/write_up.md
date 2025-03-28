@@ -43,3 +43,4 @@ read(read_got + 0x8)
 - Overwrite address of `read_got` with `system + binsh` by using `read(0, read_got,)`
 - Call `system("/bin/sh")` by `read(read_got + 0x8)`
   + `read_got + 0x8` is `/bin/sh`
+- Remember to use `pwninit` to patch binary and library (libc.so.6) to run program properly with desired environment
