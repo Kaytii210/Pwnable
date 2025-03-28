@@ -183,7 +183,7 @@ slog('canary', cnry)
 ## 📌 PIE & RELRO
 
 ### 🔀 PIE (Position-Independent Executable)
-- **Mục tiêu:** Thực thi binary với địa chỉ load thay đổi, làm cho việc exploit trở nên khó khăn hơn.
+- **Mục tiêu:** Thực thi binary với địa chỉ load thay đổi ( base address), làm cho việc exploit trở nên khó khăn hơn.
 - **Hoạt động:** Mỗi lần chạy, binary sẽ được load vào một địa chỉ ngẫu nhiên, khiến cho việc đoán địa chỉ trở nên phức tạp.
 
 ---
@@ -311,7 +311,7 @@ Pwndbg là một extension cho GDB, cung cấp nhiều lệnh hữu ích để p
     - **Canary:** Chống buffer overflow (thường được đặt tại `[rbp-0x8]`).
     - **NX (Non-Executable):** Ngăn chặn thực thi shellcode trên stack.
     - **PIE (Position Independent Executable):** Binary được load tại địa chỉ ngẫu nhiên.
-    - **RELRO (RELocation Read-Only):** Kiểm tra tính năng bảo vệ bảng địa chỉ (GOT).
+    - **RELRO (RELocation Read-Only):** Kiểm tra tính năng bảo vệ bảng địa chỉ (GOT). (anti GOT overwrite)
   
 - **start**
   - Chạy chương trình và dừng ngay tại đầu hàm `main`, giúp bạn nhanh chóng bắt đầu debug.
