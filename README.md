@@ -110,7 +110,7 @@ bytes
 
 #### `scanf("%s", buf)`
 - **Không giới hạn** input.
-- Nhận dữ liệu đến khi gặp khoảng trắng `" "`.
+- Nhận dữ liệu đến khi gặp `" "`, `\n`, `\t`.
 - Hành vi tương tự như `gets()`.
 
 #### `scanf("%[width]s", buf)`
@@ -119,8 +119,7 @@ bytes
 - Không đảm bảo chuỗi **có null-termination** (`\0`).
 
 #### `fgets(buf, len, stream)`
-- Đọc tối đa `len - 1` ký tự, phần còn lại dành cho `\0`.
-- Luôn **null-terminate** chuỗi.
+- Đọc tối đa `len - 1` ký tự, luôn thêm `\0`. Nếu input dài hơn, phần dư còn trong `stdin`.
 - Nếu input < `len`, phần còn lại được lấp bằng `\0`.
 - Nếu input = `len`, byte cuối bị bỏ và thêm `\0`.
 - Có thể **mất dữ liệu**, ví dụ: buffer 30 byte → lưu được 29 ký tự nếu `len = 30`.
