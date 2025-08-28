@@ -560,7 +560,7 @@ p.interactive()
 <summary><h1>🔗 Pwninit</h1></summary>
 <p>
 
-[Pwninit](https://github.com/io12/pwninit) is a tool for automating the setup of a pwning environment.
+[Pwninit](https://github.com/io12/pwninit) is a tool for patching binary with provided libc and loader.
 
 ---
 Commands:
