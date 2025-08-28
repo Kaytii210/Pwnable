@@ -1,4 +1,4 @@
-# 🛠️ PWN STUDY NOTES
+# 📓 PWN STUDY NOTES
 
 <details>
 <summary><h1>🧠 Computer Architecture</h1></summary>
@@ -561,6 +561,19 @@ p.interactive()
 
 -`pwninit`: tự patch file  
 -`mv file_patch file`: đổi tên
+
+</p>
+</details>
+
+<details>
+<summary><h1>🛠️ Some useful tools</h1></summary>
+<p>
+
+- [CyberChef](https://gchq.github.io/CyberChef/) : tool for analyzing and decoding data
+
+- [LinuxSyscallReference(64bit)](https://syscalls64.paolostivanin.com/) : tool for looking up Linux syscalls and their parameters
+
+- [Online Assembler/Disassembler](https://defuse.ca/online-x86-assembler.htm) : tool for assembling and disassembling x86/x64
 
 </p>
 </details>
