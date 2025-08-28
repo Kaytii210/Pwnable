@@ -1,6 +1,10 @@
 # 🛠️ PWN STUDY NOTES
 
-## 🧠 COMPUTER ARCHITECTURE
+<details>
+<summary><h1>🧠 Computer Architecture</h1></summary>
+<p>
+
+## Registers
 
 | Register | Description |
 |----------|-------------|
@@ -12,6 +16,33 @@
 | `rdi`    | Destination index (destination in data movement) |
 | `rsp`    | Stack pointer |
 | `rbp`    | Stack base pointer |
+
+---
+
+## User-space function calls (System V i386 ABI)
+- **Arguments:** pushed **right → left** on the stack.
+  At callee entry: `[esp+4]=arg1`, `[esp+8]=arg2`, …
+- **Return:** `eax` (or `edx:eax`), FP in `st(0)`
+- **Callee-saved:** `ebx`, `esi`, `edi`, `ebp` (and `esp`)
+- **Caller-saved:** `eax`, `ecx`, `edx`
+- **Stack alignment:** ABI baseline 4 bytes; SIMD code may realign to 16 bytes in prologue.
+
+---
+
+## Linux i386 **syscall** convention (`int 0x80`)
+- **`eax`** = syscall number.
+- **Args 1–6:** `ebx`, `ecx`, `edx`, `esi`, `edi`, `ebp`
+- **Return:** `eax` (≥0 success; **negative** = `-errno`)
+- Other regs not guaranteed preserved.
+
+---
+
+## Linux x86-64 **syscall** convention (`syscall` instruction)
+
+- **`rax`** — syscall number.
+- **Arguments (1–6):** `rdi, rsi, rdx, r10, r8, r9`  
+- **Return value:** `rax` (≥ 0 on success; **negative** value = `-errno`) 
+- Other registers are preserved per usual rules (`rbx, rbp, r12–r15` are callee-saved in user space).
 
 ---
 
@@ -44,21 +75,28 @@
 - `QWORD PTR [addr]`: 8 bytes
 - `DWORD PTR [addr]`: 4 bytes
 - `WORD PTR [rax]`: 2 bytes
+- `BYTE PTR [rax]`: 1 byte
 
----
+</p>
+</details>
+
+
+<details>
+<summary><h1>📚 Summary of knowledge about pwn</h1></summary>
+<p>
 
 ## 🐚 SHELLCODE
 
 ### 📌 Mục tiêu
-Gọi `execve("/bin/sh", NULL, NULL)` để thực thi shell.
+Call `execve("/bin/sh", NULL, NULL)` to get shell.
 
 ---
 
 ### 🧬 Syscall Convention (x86_64)
 
-| Register | Vai trò |
-|----------|---------|
-| `rax`    | Syscall number (`0x3b` cho `execve`) |
+| Register | Role |
+|----------|------|
+| `rax`    | Syscall number (`0x3b` for `execve`) |
 | `rdi`    | arg0: filename (`/bin/sh`) |
 | `rsi`    | arg1: argv (NULL) |
 | `rdx`    | arg2: envp (NULL) |
@@ -100,37 +138,47 @@ bytes
 
 ## 💥 BUFFER OVERFLOW
 
-### 🧵 Các hàm nhập liệu gây overflow
+### 🧵 Input functions that can overflow
 
-#### `gets(buf)`
-- **Không giới hạn** độ dài input.
-- Nhận dữ liệu đến khi gặp `\n`, **không lưu `\n`**.
-- Tự động thêm `\0` vào cuối chuỗi.
-- **Dễ bị stack overflow.**
+#### `gets(buf)` — **do not use (removed in C11)**
+- **No input length limit.**
+- Reads until `'\n'`, **does not store** the newline.
+- Always appends `'\0'`.
+- **Extremely unsafe** → classic stack overflow.
 
 #### `scanf("%s", buf)`
-- **Không giới hạn** input.
-- Nhận dữ liệu đến khi gặp `" "`, `\n`, `\t`.
-- Hành vi tương tự như `gets()`.
+- **No input length limit.**
+- Reads until `" "`, `\n`, `\t`.
+- Behaves like `gets()`.
 
 #### `scanf("%[width]s", buf)`
-- Đọc tối đa `width` ký tự.
-- Nếu `width > sizeof(buf) - 1` → **có thể tràn bộ nhớ**.
-- Không đảm bảo chuỗi **có null-termination** (`\0`).
+- Read maximum `width` characters.
+- If `width > sizeof(buf) - 1` → **may overflow**.
+- Does not guarantee string **null-termination** (`\0`).
 
 #### `fgets(buf, len, stream)`
-- Đọc tối đa `len - 1` ký tự, luôn thêm `\0`. Nếu input dài hơn, phần dư còn trong `stdin`.
-- Nếu input < `len`, phần còn lại được lấp bằng `\0`.
-- Nếu input = `len`, byte cuối bị bỏ và thêm `\0`.
-- Có thể **mất dữ liệu**, ví dụ: buffer 30 byte → lưu được 29 ký tự nếu `len = 30`.
-- Nếu còn chỗ, lưu `"\n\0"`.
+- Read maximum `len - 1` characters, always appends `\0`. If input is longer, the excess remains in `stdin`.
+- If input < `len`, the remaining part is filled with `\0`.
+- If input = `len`, the last byte is discarded and `\0` is added.
+- May **lose data**, e.g.: 30-byte buffer → can only store 29 characters if `len = 30`.
+- If there's space, store `"\n\0"`.
+
+#### `read(fd, buf, len)`
+- Read maximum `len` bytes into `buf`.
+- Returns the number of bytes read (≥ 0) or **negative** value on error.
+- Does not guarantee null-termination (`\0`).
+- Safe only if `len` is **less than or equal** to the sizeof(`buf`).
 
 ---
 
-### 📌 Phân loại Overflow
+### 📌 Core Overflow types
 
-- **Stack Overflow**: Ghi đè lên stack (return address, canary, ...)
-- **Heap Overflow**: Ghi đè vùng nhớ được cấp phát động (`malloc`, `calloc`, ...)
+- **Stack Overflow**: overwrite data on stack (return address, canary, ...).
+- **Heap Overflow**: overwrites adjacent heap chunks/objects or allocator metadata.
+- **Global/Static Overflow**: overwrites global variables or static data(`.data/.bss`).
+- **Off-by-one**: overwrite one byte beyond buffer boundary, often affecting adjacent data.
+- **Out-of-bounds**: access memory outside the allocated buffer.
+- **Integer Overflow/Underflow**: occurs when an arithmetic operation produces a value outside the representable range of the integer type.
 
 ## 🛡️ CANARY (Stack Smashing Protector)
 
@@ -143,18 +191,6 @@ bytes
 ### 🔐 Cấu trúc
 - Được lưu tại: `[rbp - 0x8]`
 - Là một chuỗi **8 bytes ngẫu nhiên**, **byte đầu luôn là `\x00`**.
-
----
-
-### 🕵️ Leak Canary (ví dụ với pwntools)
-
-````
-buf = b'A' * 0x39
-p.sendafter(b'Buf: ', buf)
-p.recvuntil(buf)
-cnry = u64(b'\x00' + p.recvn(7))  # nối thêm byte null vào đầu để đủ 8 bytes
-slog('canary', cnry)
-````
 
 ## 🔒 NX & ASLR
 
@@ -301,9 +337,14 @@ Quy trình tấn công trên x86 có thể bao gồm:
 
 Pwndbg là một extension cho GDB, cung cấp nhiều lệnh hữu ích để phân tích và khai thác binary. Dưới đây là danh sách các lệnh cơ bản và nâng cao cùng với mô tả:
 
----
+</p>
+</details>
 
-### 🔍 Các lệnh cơ bản
+<details>
+<summary><h1>🛠️ Pwndbg</h1></summary>
+<p>
+
+## 🔍 Các lệnh cơ bản
 
 - **checksec**
   - Hiển thị các tính năng bảo mật của binary:
@@ -362,7 +403,7 @@ Pwndbg là một extension cho GDB, cung cấp nhiều lệnh hữu ích để p
 
 ---
 
-### 🔢 Các thanh ghi quan trọng
+## 🔢 Các thanh ghi quan trọng
 
 - **RSP (64-bit) / ESP (32-bit)**
   - Con trỏ stack; trỏ tới đỉnh của stack.
@@ -372,7 +413,7 @@ Pwndbg là một extension cho GDB, cung cấp nhiều lệnh hữu ích để p
 
 ---
 
-### 🚀 Các lệnh nâng cao trong pwndbg
+## 🚀 Các lệnh nâng cao trong pwndbg
 
 - **context**
   - Hiển thị tổng quan về trạng thái hiện tại của tiến trình, bao gồm các thanh ghi, stack, và disassembly xung quanh địa chỉ hiện tại.
@@ -392,7 +433,12 @@ Pwndbg là một extension cho GDB, cung cấp nhiều lệnh hữu ích để p
 - **vmmap**
   - Hiển thị chi tiết hơn về layout bộ nhớ, bao gồm quyền truy cập và các file đã map.
 
-## 🧰 PWNTOOLS
+</p>
+</details>
+
+<details>
+<summary><h1>🧰 Pwntools</h1></summary>
+<p>
 
 PwnTools là thư viện mạnh mẽ hỗ trợ khai thác và tự động hóa các tác vụ tương tác với binary. Dưới đây là một số lệnh và kỹ thuật cơ bản:
 
@@ -505,12 +551,16 @@ log.info("Thông tin hữu ích" + info)
 # Chuyển sang chế độ interactive để tương tác trực tiếp với process
 p.interactive()
 ```
-## 📚 PWNINIT
+
+</p>
+</details>
+
+<details>
+<summary><h1>📚 Pwninit</h1></summary>
+<p>
 
 -`pwninit`: tự patch file  
 -`mv file_patch file`: đổi tên
 
-
-
-
-
+</p>
+</details>
