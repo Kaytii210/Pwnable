@@ -557,17 +557,22 @@ p.interactive()
 </details>
 
 <details>
-<summary><h1>📚 Pwninit</h1></summary>
+<summary><h1>🔗 Pwninit</h1></summary>
 <p>
 
--`pwninit`: tự patch file  
--`mv file_patch file`: đổi tên
+[Pwninit](https://github.com/io12/pwninit) is a tool for automating the setup of a pwning environment.
+
+---
+Commands:
+
+- `pwninit`: tự patch file
+- `mv file_patch file`: đổi tên
 
 </p>
 </details>
 
 <details>
-<summary><h1>🛠️ Some useful tools</h1></summary>
+<summary><h1>🛠️ Other useful tools</h1></summary>
 <p>
 
 - [CyberChef](https://gchq.github.io/CyberChef/) : tool for analyzing and decoding data
