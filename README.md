@@ -440,7 +440,7 @@ Pwndbg là một extension cho GDB, cung cấp nhiều lệnh hữu ích để p
 <summary><h1>🧰 Pwntools</h1></summary>
 <p>
 
-PwnTools là thư viện mạnh mẽ hỗ trợ khai thác và tự động hóa các tác vụ tương tác với binary. Dưới đây là một số lệnh và kỹ thuật cơ bản:
+[PwnTools](https://github.com/Gallopsled/pwntools) is a powerful library that supports binary mining and automation. Here are some basic commands and techniques:
 
 ---
 
