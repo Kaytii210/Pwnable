@@ -333,16 +333,17 @@ Quy trình tấn công trên x86 có thể bao gồm:
 - **64-bit:**  
   - 5 đối số đầu tiên được truyền qua các thanh ghi: `rdi`, `rsi`, `rdx`, `rcx`, `r8`, `r9`.
   - Từ đối số thứ 6 trở đi, các giá trị được lấy từ stack (ví dụ: `rsp`, `rsp+0x8`, `rsp+0x10`, `rsp+0x18`).
-## 🐞 DEBUG & PWNDGB COMMANDS
-
-Pwndbg là một extension cho GDB, cung cấp nhiều lệnh hữu ích để phân tích và khai thác binary. Dưới đây là danh sách các lệnh cơ bản và nâng cao cùng với mô tả:
 
 </p>
 </details>
 
 <details>
-<summary><h1>🛠️ Pwndbg</h1></summary>
+<summary><h1>🐞 Pwndbg</h1></summary>
 <p>
+
+[Pwndbg](https://github.com/pwndbg/pwndbg) is an extension for GDB that provides many useful commands for analyzing and exploiting binaries.
+
+---
 
 ## 🔍 Các lệnh cơ bản
 
