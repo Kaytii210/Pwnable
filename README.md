@@ -1,7 +1,7 @@
 # 📓 PWN STUDY NOTES
 
 <details>
-<summary><h1>🧠 Computer Architecture</h1></summary>
+<summary><h1>🧠 Computer Architecture + Operating System</h1></summary>
 <p>
 
 ## Registers
@@ -76,6 +76,12 @@
 - `DWORD PTR [addr]`: 4 bytes
 - `WORD PTR [rax]`: 2 bytes
 - `BYTE PTR [rax]`: 1 byte
+
+<h2> View more in: </h2>
+
+- [Computer Architecture](https://www.geeksforgeeks.org/computer-organization-architecture/computer-organization-and-architecture-tutorials/)
+- [Assembly](https://www.tutorialspoint.com/assembly_programming/index.htm)
+- [OS](https://www.tutorialspoint.com/operating_system/index.htm)
 
 </p>
 </details>
