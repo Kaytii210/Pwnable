@@ -578,3 +578,24 @@ Commands:
 
 </p>
 </details>
+
+<details>
+<summary><h1>🔰 Learning resources</h1></summary>
+<p>
+
+- [Dream Hack](https://dreamhack.io/)
+
+- [Heap](https://github.com/shellphish/how2heap)
+
+- [Azeria Labs](https://azeria-labs.com/writing-arm-shellcode/)
+
+- [JHTPwner](https://www.youtube.com/@JHTPwner)
+
+- [Leonardo](https://www.youtube.com/@leonardo69696)
+
+- [Naetw](https://github.com/Naetw/CTF-pwn-tips)
+
+- [Nobody](https://github.com/nobodyisnobody)
+
+</p>
+</details>
