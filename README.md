@@ -345,94 +345,83 @@ Quy trình tấn công trên x86 có thể bao gồm:
 
 ---
 
-## 🔍 Các lệnh cơ bản
+## 🔍 Some useful commands
 
-- **checksec**
-  - Hiển thị các tính năng bảo mật của binary:
-    - **Canary:** Chống buffer overflow (thường được đặt tại `[rbp-0x8]`).
-    - **NX (Non-Executable):** Ngăn chặn thực thi shellcode trên stack.
-    - **PIE (Position Independent Executable):** Binary được load tại địa chỉ ngẫu nhiên.
-    - **RELRO (RELocation Read-Only):** Kiểm tra tính năng bảo vệ bảng địa chỉ (GOT). (anti GOT overwrite)
-  
-- **start**
-  - Chạy chương trình và dừng ngay tại đầu hàm `main`, giúp bạn nhanh chóng bắt đầu debug.
+- **`checksec`**: show security features of the binary:
+  - **Canary:** anti buffer overflow (often set at `[rbp-0x8]`).
+  - **NX (Non-Executable):** prevents execution of shellcode on the stack.
+  - **PIE (Position Independent Executable):** Binary is loaded at a random address.
+  - **RELRO (RELocation Read-Only):** Checks the protection feature of the address table (GOT). (anti GOT overwrite)
 
-- **disass main**
-  - Disassemble hàm `main` để xem mã lệnh máy (assembly) của chương trình.
+- **`start`**: run the program and stop right at the beginning of the `main` function, helping you quickly start debugging.
 
-- **vmmap**
-  - Hiển thị sơ đồ bộ nhớ ảo của tiến trình, bao gồm các vùng: stack, heap, thư viện, và các segment khác.
+- **`disass <func>` (disassemble)**: disassemble the specified function.
 
-- **r**
-  - Chạy chương trình từ đầu.
+- **`vmmap`**: show virtual memory map of the process, including regions: stack, heap, libraries, and other segments, also displays their permissions, size, offsets and file paths.
 
-- **b *address**
-  - Đặt breakpoint tại một địa chỉ cụ thể.
-  - *Ví dụ:* `b *0x400123`
+- **`run`**: execute the program from the beginning.
 
-- **del <breakpoint>**
-  - Xóa breakpoint đã đặt.
+- **`b *<address>` (break)**: set a breakpoint at a specific address.
+  - *Ex:* `b *0x400123`
 
-- **c**
-  - Tiếp tục thực thi chương trình cho đến breakpoint tiếp theo hoặc khi chương trình dừng.
+- **`del <breakpoint>` (delete)**: delete the specified breakpoint.
 
-- **si**
-  - Step Into: Thực thi lệnh tiếp theo và bước vào bên trong các hàm (nếu có).
+- **`c` (continue)**: continue executing the program until the next breakpoint or when the program stops.
 
-- **ni**
-  - Next Instruction: Thực thi lệnh tiếp theo nhưng không bước vào các hàm.
+- **`finish`**: continue executing until the current function ends.
 
-- **i**
-  - Lệnh `info` để hiển thị thông tin, ví dụ:
-    - `i r`: Thông tin về các thanh ghi.
-    - `i b`: Danh sách breakpoints.
+- **`si` (step into)**: execute the next instruction and step into any functions (if present).
 
-- **k**
-  - Kill: Dừng tiến trình đang debug.
+- **`ni` (next instruction)**: execute the next instruction but do **not** step into any functions.
 
-- **bt**
-  - Backtrace: Hiển thị ngăn xếp lời gọi (call stack) tại thời điểm dừng.
+- **`i` (info)**: show information about the program state, for example:
+  - `i r` (info registers): Information about the registers.
+  - `i b` (info breakpoints): List of breakpoints.
 
-- **examine (x/)**
-  - Kiểm tra bộ nhớ tại một địa chỉ nhất định.
-  - Cú pháp: `x/<format> <address>`
-    - `wx`: 4 bytes (word) dưới dạng hex.
-    - `bx`: 1 byte dưới dạng hex.
-    - `4i`: 4 lệnh (instructions).
-    - `s`: In ra chuỗi (string).
-  - *Ví dụ:* `x/10wx 0x601000` hiển thị 10 word dưới dạng hex từ địa chỉ `0x601000`.
+- **`k` (kill)**: kill the debugging process.
 
----
+- **`bt` (backtrace)**: show the call stack at the time of stopping.
 
-## 🔢 Các thanh ghi quan trọng
+- **`x` (examine)**: examine memory at a specific address.
+  - Form: `x/<count><format> <address>`
 
-- **RSP (64-bit) / ESP (32-bit)**
-  - Con trỏ stack; trỏ tới đỉnh của stack.
+  | Format | Size |
+  |--------|------|
+  |`x` (hexadecimal) | `b` (Byte, 1 bytes) |
+  |`o` (octal) | `h` (Halfword, 2 bytes) |
+  |`d` (decimal) | `w` (Word, 4 bytes) |
+  |`u` (unsigned decimal) | `g` (Giant, 8 bytes) |
+  |`s` (string) |  |
+  |`t` (binary) |  |
+  |`f` (float) |  |
+  |`a` (address) |  |
+  |`c` (character) |  |
+  |`i` (instruction) |  |
+  - *Ex:* `x/10wx 0x601000` show 10 words in hex format from address `0x601000`.
 
-- **RIP (64-bit) / EIP (32-bit)**
-  - Con trỏ lệnh; chứa địa chỉ của lệnh tiếp theo sẽ được thực thi.
+- **`tel` (telescope)**: show memory around the current instruction pointer, recursively explores addresses referenced by the memory to display their values.
 
----
+- **`context`**: show an overview of the current state of the process, including registers, stack, and disassembly around the current address.
 
-## 🚀 Các lệnh nâng cao trong pwndbg
+- **`heap`**: show detailed information about the heap, assisting in the analysis of heap-related vulnerabilities.
 
-- **context**
-  - Hiển thị tổng quan về trạng thái hiện tại của tiến trình, bao gồm các thanh ghi, stack, và disassembly xung quanh địa chỉ hiện tại.
+- **`vis_heap_chunks`**: visualize heap chunks, showing their metadata and contents.
 
-- **heap**
-  - Hiển thị thông tin chi tiết về heap, hỗ trợ phân tích các lỗ hổng liên quan đến heap.
+- **`search`**: search for a string or byte sequence in memory.
+  - *Ex:* `search "flag"` will find all locations containing the string `"flag"`.
 
-- **search**
-  - Tìm kiếm một chuỗi hoặc dãy byte trong bộ nhớ.
-  - *Ví dụ:* `search "flag"` sẽ tìm tất cả các vị trí chứa chuỗi `"flag"`.
+- **`p &<variable>` (print)**: print the address of a specific variable.
+  - *Ex:* `p &0x601000` will print the value at address `0x601000`.
 
-- **pattern_create** và **pattern_offset**
-  - Hữu ích khi tạo và phân tích các chuỗi pattern (cyclic pattern) để tìm offset trong quá trình exploit:
-    - `pattern_create 100`: Tạo pattern với 100 byte.
-    - `pattern_offset <value>`: Xác định vị trí của giá trị `<value>` trong pattern.
+- **`pattern_create`** and **`pattern_offset`**
+  - Useful for creating and analyzing pattern strings (cyclic patterns) to find offsets during exploitation:
+    - `pattern_create 100`: Create a pattern with 100 bytes.
+    - `pattern_offset <value>`: Determine the position of the `<value>` in the pattern.
 
-- **vmmap**
-  - Hiển thị chi tiết hơn về layout bộ nhớ, bao gồm quyền truy cập và các file đã map.
+- **`set detach-on-fork off`**: tells GDB to not detach from the other processes after program calls `fork()/vfork()`. Both parent and child processes will stay under GDB as separate inferiors.
+  - **`set follow-fork-mode child/parent`**: process that GDB will follow after a fork.
+  - **`info inferiors`**: list tracked processes.
+  - **`inferior <id>`**: switch to a specific inferior process.
 
 </p>
 </details>
