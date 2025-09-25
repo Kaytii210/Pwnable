@@ -89,14 +89,14 @@
 </details>
 
 <details>
-<summary><h1>📚 Summary of knowledge about pwn</h1></summary>
+<summary><h1>🐛 Bugs</h1></summary>
 <p>
 
 ## 🐚 SHELLCODE
 
 ### 📌 Target
 
-Call `execve("/bin/sh", NULL, NULL)` to get a shell.
+Call `execve("/bin/sh", NULL, NULL)` to get a shell or control flow of the program.
 
 ---
 
