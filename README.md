@@ -643,7 +643,7 @@ Commands:
 
 - [CyberChef](https://gchq.github.io/CyberChef/) : tool for analyzing and decoding data
 
-- [LinuxSyscallReference(64bit)](https://syscalls64.paolostivanin.com/) : tool for looking up Linux syscalls and their parameters
+- [LinuxSyscallReference(64bit)](https://syscalls.mebeim.net/?table=x86/64/x64/latest) : tool for looking up Linux syscalls and their parameters
 
 - [Online Assembler/Disassembler](https://defuse.ca/online-x86-assembler.htm) : tool for assembling and disassembling x86/x64
 
