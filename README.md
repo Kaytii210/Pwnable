@@ -326,9 +326,10 @@ Attack procedure on x86 may include:
 
 ## 📏 OUT OF BOUNDS
 
-- **Out of Bounds (OOB):** Occurs when array index is negative or exceeds array length 
+- **Out of Bounds (OOB):** Occurs when array index is negative or exceeds array length
 
   => **Leak/overwrite** memory.
+
 - **Accessing array element:**
   ```c
   &arr[k] = arr + sizeof(elem) * k
@@ -434,6 +435,7 @@ Attack procedure on x86 may include:
   - _Ex:_ `x/10wx 0x601000` shows 10 words in hex format from address `0x601000`.
 
 - **`tel` (telescope):** show memory around the current instruction pointer, recursively explores addresses referenced by the memory to display their values. Ex:
+
   - `tel 0x123456 5` shows 5 lines of memory starting from address `0x123456`.
 
   - `tel $rsp` shows memory around the stack pointer.
@@ -550,7 +552,7 @@ all_data = p.recvall()            # Receive all data until process ends
 ### 🔹 Shellcode
 
 ```python
-# Shellcode 
+# Shellcode
 shellcode = asm(''''
     ;write your shellcode here
     mov rax, 0x3b               ; syscall number for execve
@@ -562,6 +564,7 @@ shellcode = asm(''''
 ```
 
 ### 🔹 Otherwise, use pwntools built-in shellcode generation:
+
 ```python
 # Spawn a shell (execve /bin/sh)
 shellcode = shellcraft.sh()
@@ -570,8 +573,8 @@ shellcode = shellcraft.sh()
 shellcode = shellcraft.readfile('flag.txt')
 
 # Open, read and write
-shellcode = shellcraft.open('flag.txt') 
-shellcode += shellcraft.read('rax', 'rsp', 100) 
+shellcode = shellcraft.open('flag.txt')
+shellcode += shellcraft.read('rax', 'rsp', 100)
 shellcode += shellcraft.write(1, 'rsp', 100)
 
 #Finnally, assemble the shellcode
@@ -583,6 +586,7 @@ Visit [here](https://docs.pwntools.com/en/stable/shellcraft.html) for more shell
 Remember to use `context.arch = 'amd64' or 'i386'` to set the architecture before generating shellcode.
 
 ### 🔹 Format string
+
 ```python
 # Write value to address using format string
 fmtstr_payload(
@@ -616,7 +620,6 @@ log.warning("Warning info" + info)
 p.interactive()
 ```
 
-
 ## Other commands can be found in the [official documentation](https://docs.pwntools.com/en/stable/).
 
 </p>
@@ -631,6 +634,7 @@ p.interactive()
 ---
 
 Commands:
+
 - `pwninit`: auto patch file
 - `mv file_patch file`: rename file
 
@@ -643,7 +647,7 @@ Commands:
 
 - [CyberChef](https://gchq.github.io/CyberChef/) : tool for analyzing and decoding data
 
-- [LinuxSyscallReference(64bit)](https://syscalls.mebeim.net/?table=x86/64/x64/latest) : tool for looking up Linux syscalls and their parameters
+- [LinuxSyscallReference](https://syscalls.mebeim.net/?table=x86/64/x64/latest) : tool for looking up Linux syscalls and their parameters
 
 - [Online Assembler/Disassembler](https://defuse.ca/online-x86-assembler.htm) : tool for assembling and disassembling x86/x64
 
