@@ -1,0 +1,12 @@
+b* __libc_start_call_main+120
+0x402b02
+offset 56
+flag : 0x4074A0
+animal 0x1795d8b0
+name : 0x402b18
+input : 0x403018
+Correct fish: 0x403467
+with this format /show_path_to_faculty LOCATION, what is the forbidden format
+HCMUS-CTF{c0N9r@Ts_Y0u_FO0LED_Th3_lLM}
+
+HCMUS-CTF{rE!n7eRpRE7_c4$T_m0Re_lIke_re4lLyB4D_ca$t}
