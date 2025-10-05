@@ -1,0 +1,28 @@
+services:
+  nasv2:
+    container_name: chall06-nasv2
+    build: .
+    ports:
+      - 8082:80
+    environment:
+      MYSQL_ROOT_PASSWORD: fakerootpass
+      MYSQL_DATABASE: nasv2db
+      MYSQL_USER: nasv2user
+      MYSQL_PASSWORD: fakepass
+    depends_on:
+      - db
+    volumes:
+      - ./cgi-bin/controller.cgi:/usr/local/apache2/cgi-bin/controller.cgi:ro
+    restart: unless-stopped
+  db:
+    container_name: chall06-mydb
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: fakerootpass
+      MYSQL_DATABASE: nasv2db
+      MYSQL_USER: nasv2user
+      MYSQL_PASSWORD: fakepass
+    volumes:
+      - ./sql/1_init.sql:/docker-entrypoint-initdb.d/1_init.sql
+      - ./sql/2_permission.sql:/docker-entrypoint-initdb.d/2_permission.sql
+    restart: unless-stopped

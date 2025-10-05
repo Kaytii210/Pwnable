@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>NAS - Login</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body class="bg-light">
+
+        <div class="container d-flex justify-content-center align-items-center vh-100">
+            <div class="card p-4 shadow" style="min-width: 300px;">
+                <h4 class="text-center mb-4">Login Panel</h4>
+                <form id="loginForm">
+                    <input type="hidden" name="action" value="login">
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                    <div class="mb-3">
+                        <label id="loginResult" class="form-label text-center d-block w-100"></label>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();  // Chặn submit mặc định
+
+                const username = this.username.value;
+                const password = this.password.value;
+
+                const url = `/cgi-bin/controller.cgi?action=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+
+                fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        if (!data) {
+                            document.getElementById("loginResult").innerHTML = 'Incorrect username or password';
+                        } else {
+                            document.getElementById("loginResult").innerHTML = '';
+                            console.log('Server response:', data);
+                            document.cookie = `session=${data}`;
+                            window.location.href = '/';
+                        }
+                    })
+                    .catch(error => console.log(error));
+                console.log()
+            });
+        </script>
+    </body>
+
+</html>

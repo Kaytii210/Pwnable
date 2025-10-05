@@ -1,0 +1,10 @@
+services:
+  router:
+    build: .
+    container_name: chall04-pwn
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./uploads:/app/uploads
+    restart: unless-stopped
+

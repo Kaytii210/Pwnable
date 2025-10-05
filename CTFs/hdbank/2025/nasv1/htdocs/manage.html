@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <span class="navbar-brand"></span>
+        	<div>
+                <button id="logoutBtn" class="btn btn-outline-light" onclick="window.location.href='/'">Homepage</button>
+            </div>
+        </div>
+    </nav>
+    <div class="container py-5">
+        <h2 class="text-center mb-4">User Management</h2>
+
+        <form id="deleteUser">
+            <table class="table table-bordered table-hover bg-white text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th style="width: 50px;" class="text-center"></th>
+                        <th scope="col">Username</th>
+                    </tr>
+                </thead>
+                <tbody id="userList">
+                </tbody>
+            </table>
+
+			<div class="row mt-4">
+			    <div class="col d-flex gap-2">
+			        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUserModal">
+			            Add User
+			        </button>
+			        <button type="submit" class="btn btn-danger">
+			            Delete User
+			        </button>
+			    </div>
+			    <div class="col text-end">
+			        <button type="button" id="changePasswordBtn" class="btn btn-warning">
+			            Change Password
+			        </button>
+			    </div>
+			</div>
+        </form>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form class="modal-content" id="addUser">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input required type="text" class="form-control" name="username" id="username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input required type="password" class="form-control" name="password" id="password">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Change password Modal -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form class="modal-content" id="changePassword">
+                <div class="modal-header">
+                    <h5 class="modal-title">Change password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="new-password" class="form-label">New password</label>
+                        <input required class="form-control" name="new_password" id="new-password">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+	    let session = document.cookie
+	        .split('; ')
+	        .find(row => row.startsWith('session='))
+	        ?.split('=')[1];
+        if (!session) {
+            window.location.href = "/login.html";
+        }
+        fetch(`/cgi-bin/controller.cgi?action=check_session&session=${session}`)
+        	.then(response => response.text())
+        	.then(data => {
+		        if (!data) {
+		            window.location.href = "/login.html";
+		        }
+		        if (data !== 'admin') {
+		        	window.location.href = "/";
+		        }
+        	});
+
+        document.getElementById('addUser').addEventListener('submit', function(e) {
+            e.preventDefault();  // Chặn submit mặc định
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            window.location.href = `/cgi-bin/controller.cgi?action=add_user&session=${session}&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+        });
+
+        document.getElementById('deleteUser').addEventListener('submit', function(e) {
+            e.preventDefault();  // Chặn submit mặc định
+
+            const selected = document.querySelectorAll('input[name="users"]:checked');
+            if (selected.length === 0) {
+        		alert("Please select user(s)");
+                return;
+            }
+            
+            href = `/cgi-bin/controller.cgi?action=delete_user&session=${session}`;
+            for (let i=0; i<selected.length; i++) {
+            	href += `&users=${encodeURIComponent(selected[i].value)}`
+            }
+            window.location.href = href;
+        });
+
+        document.getElementById("changePasswordBtn").addEventListener("click", function () {
+        	const selected = document.querySelectorAll('input[name="users"]:checked');
+        	if (selected.length === 0) {
+        		alert("Please select user(s)");
+        		return;
+        	}
+
+        	const username = selected[0].value;
+        	console.log("Change password for:", username);
+
+        	const modal = new bootstrap.Modal(document.getElementById("changePasswordModal"));
+        	modal.show();
+        });
+
+        document.getElementById('changePassword').addEventListener('submit', function(e) {
+            e.preventDefault();  // Chặn submit mặc định
+
+            const new_password = this.new_password.value;
+            const selected = document.querySelectorAll('input[name="users"]:checked');
+            if (selected.length === 0) {
+        		alert("Please select user(s)");
+                return;
+            }
+            
+            href = `/cgi-bin/controller.cgi?action=change_password&session=${session}&new_password=${encodeURIComponent(new_password)}`;
+            for (let i=0; i<selected.length; i++) {
+            	href += `&users=${encodeURIComponent(selected[i].value)}`
+            }
+            window.location.href = href;
+        });
+
+
+        function renderUsers() {
+            fetch(`/cgi-bin/controller.cgi?action=list_user&session=${session}`)
+            	.then(response => response.text())
+            	.then(data => document.getElementById("userList").innerHTML = data);
+        }
+
+        renderUsers();
+
+
+    </script>
+</body>
+</html>

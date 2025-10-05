@@ -1,0 +1,13 @@
+services:
+  nasv1:
+    container_name: chall03-nasv1
+    build: .
+    ports:
+      - 8089:80
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - nasv1_logs:/usr/local/apache2/logs:rw
+
+volumes:
+  nasv1_logs:

