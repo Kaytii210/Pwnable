@@ -620,7 +620,7 @@ log.warning("Warning info" + info)
 p.interactive()
 ```
 
-## Other commands can be found in the [official documentation](https://docs.pwntools.com/en/stable/).
+## Other commands can be found in the [official documentation](https://docs.pwntools.com/en/stable/) / [cheat sheet](https://gist.github.com/KnightChaser/e0ddb74278de522c6e2973d1ae8135e6).
 
 </p>
 </details>
