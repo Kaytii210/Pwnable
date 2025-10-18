@@ -653,6 +653,8 @@ Commands:
 
 - [Shell-storm](https://shell-storm.org/online/Online-Assembler-and-Disassembler/) : tool for converting.
 
+- [Libc Database](https://libc.rip/) : tool for searching libc versions based on leaked addresses
+
 </p>
 </details>
 
