@@ -373,6 +373,8 @@ Attack procedure on x86 may include:
 
 [Pwndbg](https://github.com/pwndbg/pwndbg) is an extension for GDB that provides many useful commands for analyzing and exploiting binaries.
 
+[Documentation](https://pwndbg.re/pwndbg/latest/reference/pwndbg/) pwndbg reference
+
 ---
 
 ## 🔍 Some useful commands
