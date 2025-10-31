@@ -680,5 +680,7 @@ Commands:
 
 - [Midas](https://lkmidas.github.io/posts/20210123-linux-kernel-pwn-part-1/)
 
+- [Nightmare](https://guyinatuxedo.github.io/)
+
 </p>
 </details>
