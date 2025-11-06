@@ -361,7 +361,7 @@ Attack procedure on x86 may include:
 
 - **32-bit:** Arguments are usually printed directly from the stack.
 - **64-bit:**
-  - First 5 arguments are passed via registers: `rdi`, `rsi`, `rdx`, `rcx`, `r8`, `r9`.
+  - First 5 arguments are passed via registers: `rsi`, `rdx`, `rcx`, `r8`, `r9`.
   - From the 6th argument onward, values are taken from the stack (e.g.: `rsp`, `rsp+0x8`, `rsp+0x10`, `rsp+0x18`).
 
 </p>
