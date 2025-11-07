@@ -664,23 +664,20 @@ Commands:
 <summary><h1>🔰 Learning resources</h1></summary>
 <p>
 
-- [Dream Hack](https://dreamhack.io/)
+- [Dream Hack](https://dreamhack.io/): basic system hacking
 
-- [Heap](https://github.com/shellphish/how2heap)
+- [Leonardo](https://www.youtube.com/@leonardo69696), [JHTPwner](https://www.youtube.com/@JHTPwner): friendly beginner tutorials
 
-- [Azeria Labs](https://azeria-labs.com/writing-arm-shellcode/)
+- [Nightmare](https://guyinatuxedo.github.io/): resources + writeups
 
-- [JHTPwner](https://www.youtube.com/@JHTPwner)
+- [Naetw](https://github.com/Naetw/CTF-pwn-tips): pwn tips
 
-- [Leonardo](https://www.youtube.com/@leonardo69696)
+- [Nobody](https://github.com/nobodyisnobody): pwn writeups + interesting tricks
 
-- [Naetw](https://github.com/Naetw/CTF-pwn-tips)
+- [Azeria Labs](https://azeria-labs.com/heap-exploit-development-part-1/): basic heap exploitation
 
-- [Nobody](https://github.com/nobodyisnobody)
+- [Heap](https://github.com/shellphish/how2heap): heap exploitation techniques
 
-- [Midas](https://lkmidas.github.io/posts/20210123-linux-kernel-pwn-part-1/)
-
-- [Nightmare](https://guyinatuxedo.github.io/)
-
+- [Midas](https://lkmidas.github.io/posts/20210123-linux-kernel-pwn-part-1/): linux kernel exploitation
 </p>
 </details>
