@@ -1,0 +1,5 @@
+-73
+55024
+/bin/sh
+
+ictf{i_love_finding_offsets_4fd29170cb90}
